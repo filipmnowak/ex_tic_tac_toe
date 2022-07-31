@@ -3,8 +3,11 @@ defmodule ExTicTacToe.MixProject do
 
   def project do
     [
+      name: "ExTicTacToe",
+      package: package(),
+      description: description(),
       app: :ex_tic_tac_toe,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -21,7 +24,21 @@ defmodule ExTicTacToe.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 1.1", only: :dev, runtime: false}
+      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
+  end
+
+  defp package() do
+    [
+      # These are the default files included in the package
+      files: ~w(lib .formatter.exs mix.exs README.md LICENSE.txt),
+      licenses: ["AGPL-3.0-or-later"],
+      links: %{"GitHub" => "https://github.com/filipmnowak/ex_tic_tac_toe"}
+    ]
+  end
+
+  defp description() do
+    "Elixir, MapSet-based, variable board size, Tic-tac-toe implementation (WIP)."
   end
 end
