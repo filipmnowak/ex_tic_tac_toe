@@ -6,21 +6,22 @@ defmodule ExTicTacToe.Engine.State do
     winning_intersections: nil,
     phase: nil,
     turn: nil,
+    next_move: nil,
     board: nil,
     blank_board: nil
   )
 
-  defmacro x_won(), do: {:won, "x"}
-  defmacro o_won(), do: {:won, "o"}
+  defmacro x_won(), do: {:won, :x}
+  defmacro o_won(), do: {:won, :o}
   defmacro draw(), do: {:draw, nil}
   defmacro game_on(), do: {:game_on, nil}
   defmacro illegal_state(), do: {:illegal_state, nil}
 
-  def repeat_turn("o"), do: "o"
-  def repeat_turn("x"), do: "x"
-  def whos_turn?(), do: Enum.random(["x", "o"])
-  def whos_turn?("x"), do: "o"
-  def whos_turn?("o"), do: "x"
+  def repeat_turn(:o), do: :o
+  def repeat_turn(:x), do: :x
+  def whos_turn?(), do: Enum.random([:x, :o])
+  def whos_turn?(:x), do: :o
+  def whos_turn?(:o), do: :x
 
   def new(x_max, y_max) do
     board = Board.new(x_max, y_max)
