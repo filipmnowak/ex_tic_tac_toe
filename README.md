@@ -4,6 +4,7 @@ verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](htt
 
 ## TODO
 
+- set draw when it's draw.
 - tests.
 - leaky state checks.
 - leaky init/new state API (reject invalid x and y values).
