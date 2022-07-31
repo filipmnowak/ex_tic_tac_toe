@@ -1,6 +1,6 @@
 # ExTicTacToe
 
-verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) implementation, with variable game board size.
+verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) implementation, with variable game board size. (though not optimized for bigger boards sizes.)
 
 ## TODO
 
