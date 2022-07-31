@@ -1,16 +1,16 @@
 # ExTicTacToe
 
-verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) implementation, with variable game board size. (though not optimized for bigger boards sizes.)
+Verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) implementation, with variable game board size. (Though not optimized for bigger boards sizes.)
 
 ## TODO
 
-- set draw when it's draw.
-- illegal state not being communicated via API (currently: silent NOOP).
-- tests.
-- leaky state checks.
-- leaky init/new state API (reject invalid x and y values).
+- Set draw when it's draw.
+- Illegal state not being communicated via API (currently: silent NOOP).
+- Tests.
+- Leaky state checks.
+- Leaky init/new state API (reject invalid x and y values).
 - OTP app usage example.
-- function annotations.
+- Function annotations.
 
 ## Installation
 
