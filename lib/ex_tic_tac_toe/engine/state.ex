@@ -61,7 +61,9 @@ defmodule ExTicTacToe.Engine.State do
   end
 
   def draw?(state) do
-    won?(state) || state.turn == state.board.dimmensions.x * state.board.dimmensions.x + 1
+    # hack: updated state holds new mark, however turn is not yet updated.
+    won?(state) ||
+      (state.turn == (state.board.dimmensions.x + 1) * (state.board.dimmensions.x + 1) && draw())
   end
 
   def illegal?(current_state, updated_state) do
@@ -76,6 +78,9 @@ defmodule ExTicTacToe.Engine.State do
       MapSet.size(diff) > 1 ->
         illegal_state()
 
+      MapSet.size(diff) == 0 ->
+        illegal_state()
+
       MapSet.subset?(
         MapSet.difference(current_board.topology, blank_board.topology),
         MapSet.difference(updated_board.topology, blank_board.topology)
@@ -88,7 +93,8 @@ defmodule ExTicTacToe.Engine.State do
   end
 
   def state(current_state, updated_state) do
-    case illegal?(current_state, updated_state) || won?(updated_state) || draw?(updated_state) do
+    case illegal?(current_state, updated_state) || won?(updated_state) ||
+           draw?(updated_state) || nil do
       illegal_state() ->
         illegal_state()
 
@@ -101,7 +107,7 @@ defmodule ExTicTacToe.Engine.State do
       draw() ->
         draw()
 
-      _ ->
+      nil ->
         game_on()
     end
   end

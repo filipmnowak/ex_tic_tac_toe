@@ -7,7 +7,7 @@ defmodule ExTicTacToe.MixProject do
       package: package(),
       description: description(),
       app: :ex_tic_tac_toe,
-      version: "0.1.1",
+      version: "0.2.1",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps()

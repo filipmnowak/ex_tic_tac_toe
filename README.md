@@ -4,8 +4,8 @@ Verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](htt
 
 ## TODO
 
-- Set draw when it's draw.
-- Illegal state not being communicated via API (currently: silent NOOP).
+- ~Set draw when it's draw.~
+- ~Illegal state not being communicated via API (currently: silent NOOP).~
 - Tests.
 - Leaky state checks.
 - Leaky init/new state API (reject invalid x and y values).
@@ -20,7 +20,7 @@ by adding `ex_tic_tac_toe` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ex_tic_tac_toe, "~> 0.1.1"}
+    {:ex_tic_tac_toe, "~> 0.2.1"}
   ]
 end
 ```
@@ -29,49 +29,64 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/ex_tic_tac_toe](https://hexdocs.pm/ex_tic_tac_toe).
 
-## Example
+## Examples
+
+### Draw
 
 ```elixir
-alias ExTicTacToe.Engine
-#   |   |
+iex> Enum.reduce(
+...> [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
+...> TTT.init(2, 2),
+...> fn coords, acc ->
+...>   TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...> end)
+
+iex> TTT.phase(y) === {:draw, nil}
+true
+
+# x | o | x
 #-----------
-#   |   |
+# x | o | o
 #-----------
-#   |   |
-game = Engine.init(2, 2)
-updated_game = Engine.mark(game, game.next_move, {0, 0})
-# x |   |
-#-----------
-#   |   |
-#-----------
-#   |   |
-game = Engine.progress_game(game, updated_game)
-updated_game = Engine.mark(game, game.next_move, {1, 0})
-# x | o |
-#-----------
-#   |   |
-#-----------
-#   |   |
-game = Engine.progress_game(game, updated_game)
-updated_game = Engine.mark(game, game.next_move, {0, 1})
-# x | o |
-#-----------
-# x |   |
-#-----------
-#   |   |
-game = Engine.progress_game(game, updated_game)
-updated_game = Engine.mark(game, game.next_move, {1, 1})
-# x | o |
-#-----------
-# x | o |
-#-----------
-#   |   |
-game = Engine.progress_game(game, updated_game)
-updated_game = Engine.mark(game, game.next_move, {0, 2})
+# o | x | x
+```
+
+### Win
+
+```elixir
+iex> Enum.reduce(
+...> [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
+...> TTT.init(2, 2),
+...> fn coords, acc ->
+...>   TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...> end)
+
+iex> TTT.phase(y) === {:won, :o}
+true
+
 # x | o |
 #-----------
 # x | o |
 #-----------
 # x |   |
-game = Engine.progress_game(game, updated_game)
+```
+
+### Illegal move
+
+```elixir
+iex> Enum.reduce(
+...> [{0, 0}, {0, 0}],
+...> TTT.init(2, 2),
+...> fn coords, acc ->
+...>   TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...> end)
+
+iex> TTT.phase(y) === {:illegal_move, nil}
+true
+
+# o |   |
+#-----------
+#   |   |
+#-----------
+#   |   |
 ```
