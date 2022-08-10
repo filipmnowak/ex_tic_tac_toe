@@ -35,11 +35,12 @@ be found at [https://hexdocs.pm/ex_tic_tac_toe](https://hexdocs.pm/ex_tic_tac_to
 
 ```elixir
 iex> Enum.reduce(
-...> [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
-...> TTT.init(2, 2),
-...> fn coords, acc ->
-...>   TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
-...> end)
+...>   [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
+...>   TTT.init(2, 2),
+...>   fn coords, acc ->
+...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...>   end
+...> )
 
 iex> TTT.phase(y) === {:draw, nil}
 true
@@ -55,11 +56,12 @@ true
 
 ```elixir
 iex> Enum.reduce(
-...> [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
-...> TTT.init(2, 2),
-...> fn coords, acc ->
-...>   TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
-...> end)
+...>   [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
+...>   TTT.init(2, 2),
+...>   fn coords, acc ->
+...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...>   end
+...> )
 
 iex> TTT.phase(y) === {:won, :o}
 true
@@ -75,11 +77,12 @@ true
 
 ```elixir
 iex> Enum.reduce(
-...> [{0, 0}, {0, 0}],
-...> TTT.init(2, 2),
-...> fn coords, acc ->
-...>   TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
-...> end)
+...>   [{0, 0}, {0, 0}],
+...>   TTT.init(2, 2),
+...>   fn coords, acc ->
+...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...>   end
+...> )
 
 iex> TTT.phase(y) === {:illegal_move, nil}
 true
