@@ -4,10 +4,10 @@ defmodule ExTicTacToe.Engine do
   alias ExTicTacToe.Engine.State
   require ExTicTacToe.Engine.State
 
-  def init(x_max, y_max) do
+  def init(x_max, y_max, next_move \\ :random) when next_move in [:x, :o, :random] do
     State.new(x_max, y_max)
     |> Map.put(:turn, 1)
-    |> Map.put(:next_move, State.whos_turn?())
+    |> Map.put(:next_move, (next_move == :random && State.whos_turn?()) || next_move)
     |> Map.put(:phase, State.game_on())
   end
 

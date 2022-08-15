@@ -62,8 +62,7 @@ defmodule ExTicTacToe.Engine.State do
 
   def draw?(state) do
     # hack: updated state holds new mark, however turn is not yet updated.
-    won?(state) ||
-      (state.turn == (state.board.dimmensions.x + 1) * (state.board.dimmensions.x + 1) && draw())
+    state.turn == (state.board.dimmensions.x + 1) * (state.board.dimmensions.x + 1) && draw()
   end
 
   def illegal?(current_state, updated_state) do
@@ -93,22 +92,7 @@ defmodule ExTicTacToe.Engine.State do
   end
 
   def state(current_state, updated_state) do
-    case illegal?(current_state, updated_state) || won?(updated_state) ||
-           draw?(updated_state) || nil do
-      illegal_state() ->
-        illegal_state()
-
-      x_won() ->
-        x_won()
-
-      o_won() ->
-        o_won()
-
-      draw() ->
-        draw()
-
-      nil ->
-        game_on()
-    end
+    illegal?(current_state, updated_state) || won?(updated_state) || draw?(updated_state) ||
+      game_on()
   end
 end
