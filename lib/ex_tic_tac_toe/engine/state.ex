@@ -84,7 +84,7 @@ defmodule ExTicTacToe.Engine.State do
         illegal_state()
 
       # set of all marked fields from the current board, needs to be a subset of all marked fields in
-      # the updated board. marked fields can be changed.
+      # the updated board. marked fields can't be changed.
       MapSet.subset?(
         MapSet.difference(current_board.topology, blank_board.topology),
         MapSet.difference(updated_board.topology, blank_board.topology)
