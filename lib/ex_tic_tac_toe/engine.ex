@@ -1,14 +1,25 @@
 defmodule ExTicTacToe.Engine do
   use ExTicTacToe.Types
+  import ExTicTacToe.Types.Guards
 
   alias ExTicTacToe.Engine.State
   require ExTicTacToe.Engine.State
 
-  def init(x_max, y_max, next_move \\ :random) when next_move in [:x, :o, :random] do
+  def init(x_max, y_max, next_move \\ :random)
+
+  def init(x_max, y_max, next_move)
+      when next_move in [:x, :o, :random] and
+             is_non_pos_integer(x_max) and
+             is_non_pos_integer(y_max) and
+             x_max == y_max do
     State.new(x_max, y_max)
     |> Map.put(:turn, 1)
     |> Map.put(:next_move, (next_move == :random && State.whos_turn?()) || next_move)
     |> Map.put(:phase, State.game_on())
+  end
+
+  def init(_x_max, _y_max, _next_move) do
+    {:err, :bad_args}
   end
 
   def phase(state), do: state.phase
