@@ -57,13 +57,13 @@ true
 ```elixir
 iex> Enum.reduce(
 ...>   [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
-...>   TTT.init(2, 2),
+...>   TTT.init(2, 2, :x),
 ...>   fn coords, acc ->
 ...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
 ...>   end
 ...> )
 
-iex> TTT.phase(y) === {:won, :o}
+iex> TTT.phase(y) === {:won, :x}
 true
 
 # x | o |

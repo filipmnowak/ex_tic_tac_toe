@@ -71,15 +71,20 @@ defmodule ExTicTacToe.Engine.State do
     diff = MapSet.difference(updated_board.topology, current_board.topology)
 
     cond do
-      diff === MapSet.new() ->
-        illegal_state()
-
+      # too many changes at once
       MapSet.size(diff) > 1 ->
         illegal_state()
 
+      # no changes
       MapSet.size(diff) == 0 ->
         illegal_state()
 
+      # possibly new field added
+      MapSet.size(current_board.topology) != MapSet.size(updated_board.topology) ->
+        illegal_state()
+
+      # set of all marked fields from the current board, needs to be a subset of all marked fields in
+      # the updated board. marked fields can be changed.
       MapSet.subset?(
         MapSet.difference(current_board.topology, blank_board.topology),
         MapSet.difference(updated_board.topology, blank_board.topology)

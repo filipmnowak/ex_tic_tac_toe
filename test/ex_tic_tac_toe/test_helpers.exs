@@ -106,4 +106,44 @@ defmodule ExTicTacToe.TestHelpers do
       }
     }
   end
+
+  def game(phase: :draw) do
+    Enum.reduce(
+      [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
+      TTT.init(2, 2),
+      fn coords, acc ->
+        TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+      end
+    )
+  end
+
+  def game(phase: :o_won) do
+    Enum.reduce(
+      [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
+      TTT.init(2, 2, :o),
+      fn coords, acc ->
+        TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+      end
+    )
+  end
+
+  def game(phase: :x_won) do
+    Enum.reduce(
+      [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
+      TTT.init(2, 2, :x),
+      fn coords, acc ->
+        TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+      end
+    )
+  end
+
+  def game(phase: :illegal_state) do
+    Enum.reduce(
+      [{0, 0}, {0, 0}],
+      TTT.init(2, 2),
+      fn coords, acc ->
+        TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+      end
+    )
+  end
 end
