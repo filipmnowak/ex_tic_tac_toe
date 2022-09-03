@@ -3,7 +3,9 @@ defmodule ExTicTacToe.Engine do
   import ExTicTacToe.Types.Guards
 
   alias ExTicTacToe.Engine.State
-  require ExTicTacToe.Engine.State
+  require State
+
+  defdelegate mark(state, x_or_o, x_and_y), to: State
 
   def init(x_max, y_max, next_move \\ :random)
 
@@ -23,10 +25,6 @@ defmodule ExTicTacToe.Engine do
   end
 
   def phase(state), do: state.phase
-
-  def mark(state, x_or_o, {x, y}) do
-    State.mark(state, x_or_o, {x, y})
-  end
 
   def progress_game(%State{phase: phase} = state, _)
       when phase in [State.draw(), State.x_won(), State.o_won()] do
