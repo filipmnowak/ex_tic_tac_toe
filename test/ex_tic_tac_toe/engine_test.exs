@@ -45,18 +45,6 @@ defmodule ExTicTacToe.EngineTest do
     assert game_2x2(phase: :draw) |> Eng.phase() === {:draw, nil}
   end
 
-  test "Engine.mark/3" do
-    assert update_in(
-             new_game_2x2(first: :x).board.topology,
-             &(&1 |> MapSet.delete(%{{0, 0} => nil}) |> MapSet.put(%{{0, 0} => :x}))
-           ) === Eng.mark(new_game_2x2(first: :x), :x, {0, 0})
-
-    assert update_in(
-             new_game_2x2(first: :x).board.topology,
-             &(&1 |> MapSet.put(%{{10, 10} => :x}))
-           ) === Eng.mark(new_game_2x2(first: :x), :x, {10, 10})
-  end
-
   test "Engine.progress_game/2 - noop on draw or already won game" do
     assert game_2x2(phase: :x_won) === Eng.progress_game(game_2x2(phase: :x_won), nil)
     assert game_2x2(phase: :o_won) === Eng.progress_game(game_2x2(phase: :o_won), nil)
