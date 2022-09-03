@@ -107,40 +107,50 @@ defmodule ExTicTacToe.TestHelpers do
     }
   end
 
-  def game(phase: :draw) do
+  def game_2x2(phase: :draw) do
     Enum.reduce(
       [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
-      TTT.init(2, 2),
+      new_game_3x3(first: :o),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
     )
   end
 
-  def game(phase: :o_won) do
+  def game_2x2(phase: :o_won) do
     Enum.reduce(
       [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
-      TTT.init(2, 2, :o),
+      new_game_3x3(first: :o),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
     )
   end
 
-  def game(phase: :x_won) do
+  def game_2x2(phase: :x_won) do
     Enum.reduce(
       [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
-      TTT.init(2, 2, :x),
+      new_game_3x3(first: :x),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
     )
   end
 
-  def game(phase: :illegal_state) do
+  def game_2x2(phase: :illegal_state) do
     Enum.reduce(
       [{0, 0}, {0, 0}],
-      TTT.init(2, 2),
+      new_game_3x3(first: :x),
+      fn coords, acc ->
+        TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+      end
+    )
+  end
+
+  def game_2x2(phase: :game_on) do
+    Enum.reduce(
+      [{0, 0}],
+      new_game_3x3(first: :x),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
