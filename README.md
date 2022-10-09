@@ -6,7 +6,7 @@ Verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](htt
 
 - ~Set draw when it's draw.~
 - ~Illegal state not being communicated via API (currently: silent NOOP).~
-- Tests.
+- Tests are utter mess.
 - Leaky state checks.
 - Leaky init/new state API (reject invalid x and y values).
 - OTP app usage example.
@@ -34,6 +34,7 @@ be found at [https://hexdocs.pm/ex_tic_tac_toe](https://hexdocs.pm/ex_tic_tac_to
 ### Draw
 
 ```elixir
+iex> alias ExTicTacToe, as: TTT
 iex> Enum.reduce(
 ...>   [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
 ...>   TTT.init(2, 2),
