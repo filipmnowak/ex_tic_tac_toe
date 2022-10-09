@@ -11,8 +11,8 @@ defmodule ExTicTacToe.Engine do
 
   def init(x_max, y_max, next_move)
       when next_move in [:x, :o, :random] and
-             is_non_pos_integer(x_max) and
-             is_non_pos_integer(y_max) and
+             is_pos_integer(x_max) and
+             is_pos_integer(y_max) and
              x_max == y_max do
     State.new(x_max, y_max)
     |> Map.put(:turn, 1)
@@ -23,8 +23,6 @@ defmodule ExTicTacToe.Engine do
   def init(_x_max, _y_max, _next_move) do
     {:err, :bad_args}
   end
-
-  def phase(state), do: state.phase
 
   def progress_game(%State{phase: phase} = state, _)
       when phase in [State.draw(), State.x_won(), State.o_won()] do

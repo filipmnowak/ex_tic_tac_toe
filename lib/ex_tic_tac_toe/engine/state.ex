@@ -37,6 +37,8 @@ defmodule ExTicTacToe.Engine.State do
     }
   end
 
+  def phase(state), do: state.phase
+
   def mark(state, x_or_o, {x, y}) do
     %__MODULE__{state | board: Board.mark(state.board, x_or_o, {x, y})}
   end

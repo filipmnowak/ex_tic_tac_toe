@@ -4,6 +4,7 @@ defmodule ExTicTacToe.Engine.StateTest do
   use ExUnit.Case
   doctest ExTicTacToe
 
+  alias ExTicTacToe.Engine, as: Eng
   alias ExTicTacToe.Engine.State
   alias State.Board
   alias Board.Helpers, as: BoardHelpers
@@ -86,7 +87,53 @@ defmodule ExTicTacToe.Engine.StateTest do
                %{{2, 1} => nil},
                %{{2, 2} => nil}
              ])
+  end
 
+  test "State.mark/3 - bad arg" do
     assert_raise ArgumentError, fn -> State.mark(new_game_3x3(first: :o), :z, {0, 1}) end
+  end
+
+  test "State.won?/1 - won" do
+    assert game_2x2(phase: :x_won) |> State.won?() === State.x_won()
+    assert game_2x2(phase: :o_won) |> State.won?() === State.o_won()
+  end
+
+  test "State.won?/1 - no win" do
+    assert game_2x2(phase: :draw) |> State.won?() === false
+    assert game_2x2(phase: :game_on) |> State.won?() === false
+    assert game_2x2(phase: :illegal_state) |> State.won?() === false
+  end
+
+  test "State.draw?/1 - draw" do
+    assert game_2x2(phase: :draw) |> State.draw?() === State.draw()
+  end
+
+  test "State.draw?/1 - no draw" do
+    assert game_2x2(phase: :x_won) |> State.draw?() === false
+    assert game_2x2(phase: :o_won) |> State.draw?() === false
+    assert game_2x2(phase: :game_on) |> State.draw?() === false
+    assert game_2x2(phase: :illegal_state) |> State.draw?() === false
+  end
+
+  test "State.illegal?/1 - illegal transitions" do
+    game =
+      Enum.reduce(
+        [{0, 0}],
+        new_game_3x3(first: :x),
+        fn coords, acc ->
+          Eng.progress_game(acc, State.mark(acc, acc.next_move, coords))
+        end
+      )
+
+    assert State.illegal?(game, game) === State.illegal_state()
+
+    assert State.illegal?(game, State.mark(game, :o, {0, 0})) === State.illegal_state()
+
+    assert State.illegal?(game, State.mark(game, :x, {1000, 0})) === State.illegal_state()
+
+    assert State.illegal?(State.mark(game, :x, {1, 0}), game) === State.illegal_state()
+
+    assert State.illegal?(game, State.mark(game, :x, {0, 1}) |> State.mark(:x, {0, 2})) ===
+             State.illegal_state()
   end
 end
