@@ -11,6 +11,7 @@ defmodule ExTicTacToe.Engine.State do
     blank_board: nil
   )
 
+  def won(who?) when who? === :x or who? === :o, do: {:won, who?}
   defmacro x_won(), do: {:won, :x}
   defmacro o_won(), do: {:won, :o}
   defmacro draw(), do: {:draw, nil}
@@ -44,22 +45,19 @@ defmodule ExTicTacToe.Engine.State do
   end
 
   def won?(state) do
+    _won?(state, :x) || _won?(state, :o)
+  end
+
+  defp _won?(state, who?) when who? === :x or who? === :o do
     board = state.board
 
     Enum.reduce_while(
-      state.winning_intersections.x,
+      Map.get(state.winning_intersections, who?),
       false,
       fn i, _acc ->
-        (MapSet.intersection(board.topology, i) == i && {:halt, x_won()}) || {:cont, false}
+        (MapSet.intersection(board.topology, i) == i && {:halt, won(who?)}) || {:cont, false}
       end
-    ) ||
-      Enum.reduce_while(
-        state.winning_intersections.o,
-        false,
-        fn i, _acc ->
-          (MapSet.intersection(board.topology, i) == i && {:halt, o_won()}) || {:cont, false}
-        end
-      )
+    )
   end
 
   def draw?(state) do
@@ -99,7 +97,6 @@ defmodule ExTicTacToe.Engine.State do
   end
 
   def state(current_state, updated_state) do
-    illegal?(current_state, updated_state) || won?(updated_state) || draw?(updated_state) ||
-      game_on()
+    illegal?(current_state, updated_state) || won?(updated_state) || draw?(updated_state) || game_on()
   end
 end
