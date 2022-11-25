@@ -10,18 +10,18 @@ defmodule ExTicTacToe.EngineTest do
   import ExTicTacToe.TestHelpers
 
   test "Engine.init/3 - base cases" do
-    assert Eng.init(2, 2, :x) === new_game_3x3(first: :x)
-    assert Eng.init(2, 2, :o) != new_game_3x3(first: :x)
-    assert Eng.init(2, 2, :o) === new_game_3x3(first: :o)
-    assert Eng.init(2, 2, :x) != new_game_3x3(first: :o)
-    assert Eng.init(2, 2) in [new_game_3x3(first: :o), new_game_3x3(first: :x)]
+    assert Eng.init(2, 2, :x) === game_3x3(phase: :new, first: :x)
+    assert Eng.init(2, 2, :o) != game_3x3(phase: :new, first: :x)
+    assert Eng.init(2, 2, :o) === game_3x3(phase: :new, first: :o)
+    assert Eng.init(2, 2, :x) != game_3x3(phase: :new, first: :o)
+    assert Eng.init(2, 2) in [game_3x3(phase: :new, first: :o), game_3x3(phase: :new, first: :x)]
   end
 
   test "Engine.init/3 - allowed input" do
-    assert Eng.init(1, 1, :x) === new_game_2x2(first: :x)
-    assert Eng.init(2, 2, :x) === new_game_3x3(first: :x)
-    assert Eng.init(1, 1, :o) === new_game_2x2(first: :o)
-    assert Eng.init(2, 2, :o) === new_game_3x3(first: :o)
+    assert Eng.init(1, 1, :x) === game_2x2(phase: :new, first: :x)
+    assert Eng.init(2, 2, :x) === game_3x3(phase: :new, first: :x)
+    assert Eng.init(1, 1, :o) === game_2x2(phase: :new, first: :o)
+    assert Eng.init(2, 2, :o) === game_3x3(phase: :new, first: :o)
 
     assert Eng.init(1, 2) === {:err, :bad_args}
     assert Eng.init(2, 1) === {:err, :bad_args}
@@ -60,7 +60,7 @@ defmodule ExTicTacToe.EngineTest do
     game =
       Enum.reduce(
         [{0, 0}, {1, 0}, {0, 1}, {1, 1}],
-        new_game_3x3(first: :x),
+        game_3x3(phase: :new, first: :x),
         fn coords, acc ->
           Eng.progress_game(acc, Eng.mark(acc, acc.next_move, coords))
         end
@@ -73,7 +73,7 @@ defmodule ExTicTacToe.EngineTest do
     game =
       Enum.reduce(
         [{0, 0}, {1, 0}, {0, 1}, {1, 1}],
-        new_game_3x3(first: :o),
+        game_3x3(phase: :new, first: :o),
         fn coords, acc ->
           Eng.progress_game(acc, Eng.mark(acc, acc.next_move, coords))
         end
@@ -86,7 +86,7 @@ defmodule ExTicTacToe.EngineTest do
     game =
       Enum.reduce(
         [{0, 0}],
-        new_game_3x3(first: :x),
+        game_3x3(phase: :new, first: :x),
         fn coords, acc ->
           Eng.progress_game(acc, Eng.mark(acc, acc.next_move, coords))
         end
@@ -106,7 +106,7 @@ defmodule ExTicTacToe.EngineTest do
     game =
       Enum.reduce(
         [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}],
-        new_game_3x3(first: :x),
+        game_3x3(phase: :new, first: :x),
         fn coords, acc ->
           Eng.progress_game(acc, Eng.mark(acc, acc.next_move, coords))
         end
@@ -117,7 +117,7 @@ defmodule ExTicTacToe.EngineTest do
   end
 
   test "Engine.progress_game/2 - game on" do
-    game = new_game_3x3(first: :x)
+    game = game_3x3(phase: :new, first: :x)
 
     assert Eng.progress_game(game, Eng.mark(game, :x, {2, 2})) |> State.phase() ===
              {:game_on, nil}

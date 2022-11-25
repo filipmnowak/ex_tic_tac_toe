@@ -62,7 +62,7 @@ defmodule ExTicTacToe.Engine.StateTest do
   end
 
   test "State.mark/3" do
-    assert State.mark(new_game_3x3(first: :x), :x, {0, 0}).board.topology ===
+    assert State.mark(game_3x3(phase: :new, first: :x), :x, {0, 0}).board.topology ===
              MapSet.new([
                %{{0, 0} => :x},
                %{{0, 1} => nil},
@@ -75,7 +75,7 @@ defmodule ExTicTacToe.Engine.StateTest do
                %{{2, 2} => nil}
              ])
 
-    assert State.mark(new_game_3x3(first: :o), :o, {0, 1}).board.topology ===
+    assert State.mark(game_3x3(phase: :new, first: :o), :o, {0, 1}).board.topology ===
              MapSet.new([
                %{{0, 0} => nil},
                %{{0, 1} => :o},
@@ -90,7 +90,7 @@ defmodule ExTicTacToe.Engine.StateTest do
   end
 
   test "State.mark/3 - bad arg" do
-    assert_raise ArgumentError, fn -> State.mark(new_game_3x3(first: :o), :z, {0, 1}) end
+    assert_raise ArgumentError, fn -> State.mark(game_3x3(phase: :new, first: :o), :z, {0, 1}) end
   end
 
   test "State.won?/1 - won" do
@@ -119,7 +119,7 @@ defmodule ExTicTacToe.Engine.StateTest do
     game =
       Enum.reduce(
         [{0, 0}],
-        new_game_3x3(first: :x),
+        game_3x3(phase: :new, first: :x),
         fn coords, acc ->
           Eng.progress_game(acc, State.mark(acc, acc.next_move, coords))
         end

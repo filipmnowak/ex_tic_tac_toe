@@ -1,7 +1,7 @@
 defmodule ExTicTacToe.TestHelpers do
   alias ExTicTacToe, as: TTT
 
-  def new_game_3x3(first: x_or_y) do
+  def game_3x3(phase: :new, first: x_or_y) do
     %TTT.Engine.State{
       blank_board: %TTT.Engine.State.Board{
         dimmensions: %{x: 2, y: 2},
@@ -61,7 +61,7 @@ defmodule ExTicTacToe.TestHelpers do
     }
   end
 
-  def new_game_2x2(first: x_or_y) do
+  def game_2x2(phase: :new, first: x_or_y) do
     %TTT.Engine.State{
       blank_board: %TTT.Engine.State.Board{
         dimmensions: %{x: 1, y: 1},
@@ -110,7 +110,7 @@ defmodule ExTicTacToe.TestHelpers do
   def game_2x2(phase: :draw) do
     Enum.reduce(
       [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
-      new_game_3x3(first: :o),
+      game_3x3(phase: :new, first: :o),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
@@ -120,7 +120,7 @@ defmodule ExTicTacToe.TestHelpers do
   def game_2x2(phase: :o_won) do
     Enum.reduce(
       [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
-      new_game_3x3(first: :o),
+      game_3x3(phase: :new, first: :o),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
@@ -130,7 +130,7 @@ defmodule ExTicTacToe.TestHelpers do
   def game_2x2(phase: :x_won) do
     Enum.reduce(
       [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
-      new_game_3x3(first: :x),
+      game_3x3(phase: :new, first: :x),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
@@ -140,7 +140,7 @@ defmodule ExTicTacToe.TestHelpers do
   def game_2x2(phase: :illegal_state) do
     Enum.reduce(
       [{0, 0}, {0, 0}],
-      new_game_3x3(first: :x),
+      game_3x3(phase: :new, first: :x),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
@@ -150,7 +150,7 @@ defmodule ExTicTacToe.TestHelpers do
   def game_2x2(phase: :game_on) do
     Enum.reduce(
       [{0, 0}],
-      new_game_3x3(first: :x),
+      game_3x3(phase: :new, first: :x),
       fn coords, acc ->
         TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
       end
