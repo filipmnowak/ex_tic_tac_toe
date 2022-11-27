@@ -6,8 +6,6 @@ defmodule ExTicTacToe.Engine.StateTest do
 
   alias ExTicTacToe.Engine, as: Eng
   alias ExTicTacToe.Engine.State
-  alias State.Board
-  alias Board.Helpers, as: BoardHelpers
   require State
   import ExTicTacToe.TestHelpers
 
@@ -46,19 +44,26 @@ defmodule ExTicTacToe.Engine.StateTest do
   end
 
   test "State.new/2" do
-    {x, y} = {2, 2}
-    board = Board.new(x, y)
-
-    assert State.new(2, 2) ===
-             %State{
-               winning_intersections: %{
-                 x: BoardHelpers.winning_intersections(:x, {x, y}),
-                 o: BoardHelpers.winning_intersections(:o, {x, y})
-               },
-               phase: :init,
-               board: board,
-               blank_board: board
-             }
+    assert(
+      State.new(0, 0) ===
+        %ExTicTacToe.Engine.State{
+          winning_intersections: %{
+            o: [MapSet.new([%{{0, 0} => :o}])],
+            x: [MapSet.new([%{{0, 0} => :x}])]
+          },
+          phase: :init,
+          turn: nil,
+          next_move: nil,
+          board: %ExTicTacToe.Engine.State.Board{
+            topology: MapSet.new([%{{0, 0} => nil}]),
+            dimmensions: %{x: 0, y: 0}
+          },
+          blank_board: %ExTicTacToe.Engine.State.Board{
+            topology: MapSet.new([%{{0, 0} => nil}]),
+            dimmensions: %{x: 0, y: 0}
+          }
+        }
+    )
   end
 
   test "State.mark/3" do
