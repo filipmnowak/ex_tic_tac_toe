@@ -92,14 +92,12 @@ defmodule ExTicTacToe.EngineTest do
         end
       )
 
-    assert Eng.progress_game(game, Eng.mark(game, :x, {0, 0})) |> State.phase() ===
-             State.illegal_state()
+    assert Eng.progress_game(game, Eng.mark(game, :x, {0, 0})) |> State.phase() === State.illegal_state()
 
-    assert Eng.progress_game(game, Eng.mark(game, :x, {1000, 0})) |> State.phase() ===
-             State.illegal_state()
+    assert Eng.progress_game(game, Eng.mark(game, :x, {1000, 0})) |> State.phase() === State.illegal_state()
 
-    assert Eng.progress_game(game, Eng.mark(game, :x, {0, 1}) |> Eng.mark(:x, {0, 2}))
-           |> State.phase() === State.illegal_state()
+    assert Eng.progress_game(game, Eng.mark(game, :x, {0, 1}) |> Eng.mark(:x, {0, 2})) |> State.phase() ===
+      State.illegal_state()
   end
 
   test "Engine.progress_game/2 - draw" do
@@ -112,14 +110,12 @@ defmodule ExTicTacToe.EngineTest do
         end
       )
 
-    assert Eng.progress_game(game, Eng.mark(game, :x, {2, 2})) |> State.phase() ===
-             {:draw, nil}
+    assert Eng.progress_game(game, Eng.mark(game, :x, {2, 2})) |> State.phase() === {:draw, nil}
   end
 
   test "Engine.progress_game/2 - game on" do
     game = game_3x3(phase: :new, first: :x)
 
-    assert Eng.progress_game(game, Eng.mark(game, :x, {2, 2})) |> State.phase() ===
-             {:game_on, nil}
+    assert Eng.progress_game(game, Eng.mark(game, :x, {2, 2})) |> State.phase() === {:game_on, nil}
   end
 end
