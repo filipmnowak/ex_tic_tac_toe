@@ -7,6 +7,7 @@ defmodule ExTicTacToe.Engine.State do
     phase: nil,
     turn: nil,
     next_move: nil,
+    journal: nil,
     board: nil,
     blank_board: nil
   )
@@ -33,15 +34,21 @@ defmodule ExTicTacToe.Engine.State do
         o: BoardHelpers.winning_intersections(:o, {x_max, y_max})
       },
       phase: :init,
+      journal: [{Time.utc_now(), :new, nil}],
       board: board,
       blank_board: board
     }
   end
 
   def phase(state), do: state.phase
+  def turn(state), do: state.turn
 
   def mark(state, x_or_o, {x, y}) do
-    %__MODULE__{state | board: Board.mark(state.board, x_or_o, {x, y})}
+    %__MODULE__{
+      state
+      | board: Board.mark(state.board, x_or_o, {x, y}),
+        journal: state.journal ++ [{Time.utc_now(), x_or_o, {x, y}}]
+    }
   end
 
   def won?(state) do
@@ -97,6 +104,7 @@ defmodule ExTicTacToe.Engine.State do
   end
 
   def state(current_state, updated_state) do
-    illegal?(current_state, updated_state) || won?(updated_state) || draw?(updated_state) || game_on()
+    illegal?(current_state, updated_state) || won?(updated_state) || draw?(updated_state) ||
+      game_on()
   end
 end

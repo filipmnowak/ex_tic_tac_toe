@@ -6,4 +6,5 @@ defmodule ExTicTacToe do
   defdelegate phase(state), to: State
   defdelegate mark(state, x_or_o, x_and_y), to: Engine
   defdelegate progress_game(state, updated_state), to: Engine
+  defdelegate restart_from(state, trurn), to: Engine
 end

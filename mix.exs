@@ -7,7 +7,7 @@ defmodule ExTicTacToe.MixProject do
       package: package(),
       description: description(),
       app: :ex_tic_tac_toe,
-      version: "0.2.2",
+      version: "0.3.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -33,8 +33,8 @@ defmodule ExTicTacToe.MixProject do
     [
       # These are the default files included in the package
       files: ~w(lib .formatter.exs mix.exs README.md LICENSE.txt),
-      licenses: ["AGPL-3.0-or-later"],
-      links: %{"GitHub" => "https://github.com/filipmnowak/ex_tic_tac_toe"}
+      licenses: ["Unlicense"],
+      links: %{"Codeberg" => "https://codeberg.org/filipmnowak/ex_tic_tac_toe"}
     ]
   end
 

@@ -4,8 +4,8 @@ Verbose and non-idiomatic exercise in futility: `MapSet`-based [Tic-tac-toe](htt
 
 ## TODO
 
-- ~Set draw when it's draw.~
-- ~Illegal state not being communicated via API (currently: silent NOOP).~
+- ~~Set draw when it's draw.~~
+- ~~Illegal state not being communicated via API (currently: silent NOOP).~~
 - Tests are utter mess.
 - Leaky state checks.
 - Leaky init/new state API (reject invalid x and y values).
