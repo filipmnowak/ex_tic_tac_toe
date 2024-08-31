@@ -1,6 +1,20 @@
 defmodule ExTicTacToe.TestHelpers do
   alias ExTicTacToe, as: TTT
 
+  defmacro assert_on_state({:===, _, [l, r]}) do
+    quote(bind_quoted: [l: l, r: r]) do
+      alias ExTicTacToe.Engine.State
+      assert %State{l | journal: nil} === %State{r | journal: nil}
+    end
+  end
+
+  defmacro assert_on_state({:!==, _, [l, r]}) do
+    quote(bind_quoted: [l: l, r: r]) do
+      alias ExTicTacToe.Engine.State
+      assert %TTT.Engine.State{l | journal: nil} !== %State{r | journal: nil}
+    end
+  end
+
   def game_3x3(phase: :new, first: x_or_y) do
     %TTT.Engine.State{
       blank_board: %TTT.Engine.State.Board{
@@ -34,6 +48,7 @@ defmodule ExTicTacToe.TestHelpers do
           ])
       },
       next_move: x_or_y,
+      journal: [],
       phase: {:game_on, nil},
       turn: 1,
       winning_intersections: %{
@@ -84,6 +99,7 @@ defmodule ExTicTacToe.TestHelpers do
           ])
       },
       next_move: x_or_y,
+      journal: [],
       phase: {:game_on, nil},
       turn: 1,
       winning_intersections: %{

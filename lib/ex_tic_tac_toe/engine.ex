@@ -22,9 +22,13 @@ defmodule ExTicTacToe.Engine do
     |> Map.put(:phase, State.game_on())
   end
 
-  def init(x_max, y_max, next_move) do
-    {x_max, y_max, next_move}
-    # {:err, :bad_args}
+  #def init(x_max, y_max, _next_move) when is_pos_integer(x_max) and is_pos_integer(y_max) and x_max !== y_max do
+  #  {:err, :bad_args}
+  #end
+
+  def init(_x_max, _y_max, _next_move) do
+    # {x_max, y_max, next_move}
+    {:err, :bad_args}
   end
 
   def progress_game(%State{phase: phase} = state, _)

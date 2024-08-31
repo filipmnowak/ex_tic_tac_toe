@@ -44,7 +44,7 @@ defmodule ExTicTacToe.Engine.StateTest do
   end
 
   test "State.new/2" do
-    assert(
+    assert_on_state(
       State.new(0, 0) ===
         %ExTicTacToe.Engine.State{
           winning_intersections: %{
