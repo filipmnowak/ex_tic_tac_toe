@@ -26,4 +26,22 @@ defmodule ExTicTacToe.Engine.State.Board.Helpers do
     |> Enum.uniq()
     |> Enum.map(fn i -> MapSet.new(i) end)
   end
+
+  def _field_v_to_glyph(:x), do: "x"
+  def _field_v_to_glyph(:o), do: "o"
+  def _field_v_to_glyph(nil), do: " "
+
+  def render_board(board) do
+    _render_topology(board.topology, board.dimmensions.x + 1) |> List.to_string()
+  end
+
+  def _render_topology(topology, size) do
+    ["\n"] ++
+      for l <- topology |> MapSet.to_list() |> Enum.chunk_every(size) do
+        for f <- l do
+          [{{_, _}, v}] = Map.to_list(f)
+          " " <> _field_v_to_glyph(v) <> " |"
+        end ++ ["\n"] ++ [String.duplicate("-", size * 4)] ++ ["\n"]
+      end
+  end
 end

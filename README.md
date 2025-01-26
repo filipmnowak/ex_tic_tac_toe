@@ -35,62 +35,76 @@ be found at [https://hexdocs.pm/ex_tic_tac_toe](https://hexdocs.pm/ex_tic_tac_to
 
 ```elixir
 iex> alias ExTicTacToe, as: TTT
-iex> Enum.reduce(
-...>   [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
-...>   TTT.init(2, 2),
-...>   fn coords, acc ->
-...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
-...>   end
+iex> ttt = Enum.reduce(
+...>    [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {1, 2}, {0, 2}, {2, 0}, {2, 1}, {2, 2}],
+...>    TTT.init(2, 2),
+...>    fn coords, acc ->
+...>      TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
+...>    end
 ...> )
-
-iex> TTT.phase(y) === {:draw, nil}
+%ExTicTacToe.Engine.State{...}
+iex> TTT.phase(ttt) === {:draw, nil}
 true
+iex> TTT.Engine.State.Board.Helpers.render_board(ttt.board) |> IO.puts()
 
-# x | o | x
-#-----------
-# x | o | o
-#-----------
-# o | x | x
+ x | x | o |
+------------
+ o | o | x |
+------------
+ x | o | x |
+------------
+
+:ok
 ```
 
 ### Win
 
 ```elixir
-iex> Enum.reduce(
+iex> alias ExTicTacToe, as: TTT
+iex> ttt = Enum.reduce(
 ...>   [{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}],
 ...>   TTT.init(2, 2, :x),
 ...>   fn coords, acc ->
 ...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
 ...>   end
 ...> )
-
-iex> TTT.phase(y) === {:won, :x}
+%ExTicTacToe.Engine.State{...}
+iex> TTT.phase(ttt) === {:won, :x}
 true
+iex> TTT.Engine.State.Board.Helpers.render_board(ttt.board) |> IO.puts()
 
-# x | o |
-#-----------
-# x | o |
-#-----------
-# x |   |
+ x | x | x |
+------------
+ o | o |   |
+------------
+   |   |   |
+------------
+
+:ok
 ```
 
 ### Illegal move
 
 ```elixir
-iex> Enum.reduce(
+iex> alias ExTicTacToe, as: TTT
+iex> ttt = Enum.reduce(
 ...>   [{0, 0}, {0, 0}],
 ...>   TTT.init(2, 2),
 ...>   fn coords, acc ->
 ...>     TTT.progress_game(acc, TTT.mark(acc, acc.next_move, coords))
 ...>   end
 ...> )
-
-iex> TTT.phase(y) === {:illegal_move, nil}
+%ExTicTacToe.Engine.State{...}
+iex> TTT.phase(ttt) === {:illegal_state, nil}
 true
+iex> TTT.Engine.State.Board.Helpers.render_board(ttt.board) |> IO.puts()
 
-# o |   |
-#-----------
-#   |   |
-#-----------
-#   |   |
+ o |   |   |
+------------
+   |   |   |
+------------
+   |   |   |
+------------
+
+:ok
 ```
